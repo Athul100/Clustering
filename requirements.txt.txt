@@ -1,0 +1,6 @@
+numpy
+matplotlib
+pickle
+nltk
+sklearn
+gensim
