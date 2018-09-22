@@ -2,11 +2,17 @@
 import re
 from nltk.corpus import stopwords
 from langdetect import detect, DetectorFactory
+from wordsegment import load, segment
+load()
 
 
 def pre_process(text, spell_correction_model, word_segment):
     text = clean(text, spell_correction_model, word_segment)
     return text
+
+
+def word_segmentation(word):
+    return segment(word)
 
 
 def clean(text, spell_correction_model, word_segment):
@@ -19,20 +25,19 @@ def clean(text, spell_correction_model, word_segment):
     if lang != 'en':
         print(lang)
         return None
+    text = re.sub(r'''(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s
+                    ()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))''', " ", text)
 
-    text = re.sub(r'^https?:\/\/.*[\r\n]*', '', text, flags=re.MULTILINE)
+    # text = re.sub(r'^https?:\/\/.*[\r\n]*', '', text, flags=re.MULTILINE)
     letter_only = re.sub('[^a-zA-Z]', ' ', text)
 
     print('Before Spell Correction', letter_only)
     spell_corrected_text = ''
     for word in letter_only.split():
-        print('Spelling 1')
         word = spell_correction_model.correction(word)
-        print('Segmenting', word)
-        corrected_text_array = word_segment.segment(word)
-
+        # corrected_text_array = word_segment.segment(word)
+        corrected_text_array = word_segmentation(word)
         arr = []
-        print('Spelling 2')
         if len(corrected_text_array)>1:
             for each in corrected_text_array:
                 arr.append(spell_correction_model.correction(each))
