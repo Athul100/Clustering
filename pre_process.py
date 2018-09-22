@@ -27,9 +27,9 @@ def clean(text, spell_correction_model, word_segment):
     spell_corrected_text = ''
     for word in letter_only.split():
         print('Spelling 1')
-        spell_correction_model.correction(word)
-        print('Segmenting')
-        corrected_text_array = word_segment.segment(spell_correction_model.correction(word))
+        word = spell_correction_model.correction(word)
+        print('Segmenting', word)
+        corrected_text_array = word_segment.segment(word)
 
         arr = []
         print('Spelling 2')
