@@ -62,6 +62,25 @@ class SpellCorrect:
 
 if __name__ == '__main__':
     print('test')
+    word = Word2Vec()
+    word_vec = word.model['text','book']
+
+    print(word_vec.T.shape)
+
+    from model import create_vector
+
+    tfs = create_vector(['text book'])
+
+    print(tfs.T.shape)
+
+
+    vector = word_vec.T * tfs.T
+
+    print(vector.T.shape)
+
+
+    
+
     # print(correction('quikly'))
     # text = 'freekeith forgetus btruetolife truepg daentertainah knickanator donaldp bronxprodigyzzz ' \
     #        'jerrelxl trace avp bigfreezie ajthemanchild ant hatemgr knicks woodshed rahmmagick lcamarketing ' \
